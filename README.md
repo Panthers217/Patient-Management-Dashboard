@@ -1,3 +1,78 @@
+# Patient Management Dashboard (PMD)
+
+![Demo GIF](./demo/pmd-demo.gif)
+
+A demo-ready, role-based clinic dashboard showing patients, appointments, and encounters.
+This repo contains a Vite + React frontend and a minimal Express + Prisma backend (SQLite for dev).
+
+## TL;DR — Run the demo locally
+
+1) Start the backend
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run prisma:generate
+npm run prisma:migrate -- --name init
+npm run seed
+npm run dev
+```
+
+2) Start the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the app at the forwarded Vite URL (usually `http://localhost:5173`).
+
+### Demo credentials (dev)
+- Admin: `admin@clinic.test` / `password` (seeded via `backend/prisma/seed.js`)
+- Frontend demo accounts (fakeAuth fallback):
+  - `dr.jones@clinic.test` / `password` (role: doctor)
+  - `nurse.amy@clinic.test` / `password` (role: nurse)
+  - `front.desk@clinic.test` / `password` (role: staff)
+
+Notes:
+- Backend issues JWTs on login; frontend stores the token in localStorage under `pmd_user`.
+- The frontend uses an in-memory fallback (`mockApi`) when the backend is unreachable so the UI remains interactive during demos.
+
+## Quick architecture summary
+- Frontend: Vite + React (JSX), Tailwind, React Router, TanStack Query (optional). Code lives under `frontend/src`.
+- Backend: Express (TypeScript), Prisma (SQLite by default), Zod for validation. Code lives under `backend/src` and schema in `backend/prisma/schema.prisma`.
+
+## What to show during an employer demo
+- Login as `admin@clinic.test` and demonstrate protected routes.
+- Open a patient profile, create/edit an encounter (shows end-to-end persistence to SQLite via Prisma).
+- Show the Calendar and Appointments pages and the in-app modals for creating items.
+- Point out the mockApi fallback and how the frontend is resilient when backend is unavailable.
+
+## Demo assets and tips
+- Add a short screen recording (30–60s): login → open patient → create an encounter → show that it persists after refresh.
+- Include a short GIF in the README (`/demo/pmd-demo.gif`) to catch attention in PRs or your portfolio.
+- Optionally include a `docker-compose.yml` for single-command demo (frontend + backend + db).
+
+## Next steps (recommended)
+- Harden security: rotate `JWT_SECRET`, add HTTPS, enforce RBAC on all routes, and add audit logging.
+- Add tests (Jest + React Testing Library + supertest) and a GitHub Actions workflow.
+- Replace mock fallbacks with live endpoints for all resources and add user management UI.
+
+## Project layout
+- `frontend/` — Vite + React frontend
+- `backend/` — Express + Prisma backend (TypeScript)
+- `backend/prisma/dev.db` — local SQLite DB created by migrations (dev)
+
+---
+
+If you want, I can:
+- Add a GIF screenshot to `/demo` and update the README to embed it.
+- Add a minimal `docker-compose.yml` so reviewers can run `docker compose up`.
+- Add a GitHub Actions workflow that runs tests and a quick lint.
+
+Tell me which of the above you want next and I’ll implement it.
 # Patient-Management-Dashboard
 
 A secure, role-based web app for small clinics and telehealth practices to manage day-to-day operations: patients, appointments, clinical notes, documents, and basic analytics. This repository contains a frontend scaffold (Vite + React + Tailwind) and a minimal backend scaffold (Express + Prisma + Zod) to get you started.

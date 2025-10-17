@@ -6,18 +6,28 @@ export default function LoginPage() {
   const [email, setEmail] = useState('admin@clinic.test')
   const [password, setPassword] = useState('password')
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [loginUsers] = useState([
+    { label: 'Admin', email: 'admin@clinic.test' },
+    { label: 'Doctor (Dr Jones)', email: 'dr.jones@clinic.test' },
+    { label: 'Nurse (Amy)', email: 'nurse.amy@clinic.test' },
+    { label: 'Front Desk', email: 'front.desk@clinic.test' },
+  ])
+  const [selectedDemo, setSelectedDemo] = useState(loginUsers[0].email)
   const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
+    setLoading(true)
     try {
       await login(email, password)
       navigate('/')
     } catch (err) {
       setError(err.message)
     }
+    setLoading(false)
   }
 
   return (
@@ -34,8 +44,26 @@ export default function LoginPage() {
         </div>
         {error && <div className="text-red-600">{error}</div>}
         <div className="flex items-center justify-between">
-          <button type="submit" className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded shadow">Sign in</button>
-          <button type="button" onClick={() => { setEmail('admin@clinic.test'); setPassword('password') }} className="text-sm text-slate-600 hover:underline">Use demo creds</button>
+          <button type="submit" disabled={loading} className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded shadow disabled:opacity-60">
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
+          <div className="flex flex-col items-start gap-1">
+            <label htmlFor="demo-users" className="text-sm text-[green] text-slate-600">Demo users</label>
+            <select
+              id="demo-users"
+              value={selectedDemo}
+              onChange={(e) => {
+                setSelectedDemo(e.target.value)
+                setEmail(e.target.value)
+                setPassword('password')
+              }}
+              className="text-sm border rounded px-2 py-1 w-56"
+            >
+              {loginUsers.map((u) => (
+                <option key={u.email} value={u.email}>{u.label} — {u.email}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </form>
     </div>

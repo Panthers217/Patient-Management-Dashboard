@@ -1,28 +1,29 @@
 import express from 'express'
 import { z } from 'zod'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import prisma from '../lib/prisma'
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret'
 
 const createRouter = () => {
   const router = express.Router()
 
   const LoginSchema = z.object({ email: z.string().email(), password: z.string().min(1) })
 
-  // Demo in-memory users; replace with prisma-backed users in production
-  const users = [
-    { id: 1, email: 'admin@clinic.test', passwordHash: bcrypt.hashSync('password', 8), role: 'admin', name: 'Admin' },
-    { id: 2, email: 'dr.jones@clinic.test', passwordHash: bcrypt.hashSync('password', 8), role: 'doctor', name: 'Dr Jones' },
-  ]
-
   router.post('/login', async (req, res) => {
     const parse = LoginSchema.safeParse(req.body)
     if (!parse.success) return res.status(400).json({ error: parse.error.errors })
     const { email, password } = parse.data
-    const user = users.find((u) => u.email === email)
+
+    // try to find user in prisma first
+    const user = await prisma.user.findUnique({ where: { email } })
     if (!user) return res.status(401).json({ error: 'Invalid credentials' })
-    const ok = await bcrypt.compare(password, user.passwordHash)
+    const ok = await bcrypt.compare(password, user.password)
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' })
-    // return a mock token; replace with JWT sign
-    res.json({ id: user.id, email: user.email, name: user.name, role: user.role, token: 'dev-token' })
+
+    const token = jwt.sign({ id: user.id, role: user.role, email: user.email }, JWT_SECRET, { expiresIn: '8h' })
+    res.json({ id: user.id, email: user.email, name: user.name, role: user.role, token })
   })
 
   return router

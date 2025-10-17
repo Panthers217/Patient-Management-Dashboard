@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Card from './Card'
 
 export default function AppointmentEditor({ initial = null, onSaved, onCancel }) {
   const [time, setTime] = useState(initial?.time ?? '09:00')
@@ -24,21 +25,23 @@ export default function AppointmentEditor({ initial = null, onSaved, onCancel })
   }
 
   return (
-    <div className="mt-2 p-3 border rounded bg-white">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="border rounded px-2 py-1" />
-        <input value={patient} onChange={(e) => setPatient(e.target.value)} placeholder="Patient name" className="border rounded px-2 py-1" />
-        <select value={status} onChange={(e) => setStatus(e.target.value)} className="border rounded px-2 py-1">
-          <option value="booked">Booked</option>
-          <option value="checked-in">Checked-in</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-      </div>
+    <div className="mt-2">
+      <Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
+          <input value={patient} onChange={(e) => setPatient(e.target.value)} placeholder="Patient name" className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
+          <select value={status} onChange={(e) => setStatus(e.target.value)} className="border border-slate-300 rounded px-2 py-1">
+            <option value="booked">Booked</option>
+            <option value="checked-in">Checked-in</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
 
-      <div className="mt-3 flex items-center justify-end gap-2">
-        <button onClick={onCancel} className="px-3 py-1 border rounded">Cancel</button>
-        <button onClick={handleSave} disabled={saving} className="px-3 py-1 bg-sky-600 text-white rounded">{saving ? 'Saving...' : 'Save'}</button>
-      </div>
+        <div className="mt-3 flex items-center justify-end gap-2">
+          <button onClick={onCancel} className="px-3 py-1 border border-slate-300 rounded hover:bg-slate-50">Cancel</button>
+          <button onClick={handleSave} disabled={saving} className="px-3 py-1 bg-sky-600 text-white rounded">{saving ? 'Saving...' : 'Save'}</button>
+        </div>
+      </Card>
     </div>
   )
 }

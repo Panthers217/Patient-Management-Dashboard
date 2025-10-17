@@ -1,12 +1,24 @@
-const { PrismaClient } = require('@prisma/client')
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.user.upsert({
-    where: { email: 'admin@clinic.test' },
-    update: {},
-    create: { email: 'admin@clinic.test', name: 'Admin', password: 'password', role: 'admin' },
-  })
+  const bcrypt = require('bcryptjs')
+  const pwHash = bcrypt.hashSync('password', 8)
+  // seed admin + clinicians + front desk
+  const users = [
+    { email: 'admin@clinic.test', name: 'Admin', role: 'admin' },
+    { email: 'dr.jones@clinic.test', name: 'Dr Jones', role: 'doctor' },
+    { email: 'nurse.amy@clinic.test', name: 'Nurse Amy', role: 'nurse' },
+    { email: 'front.desk@clinic.test', name: 'Front Desk', role: 'staff' },
+  ]
+
+  for (const u of users) {
+    await prisma.user.upsert({
+      where: { email: u.email },
+      update: { password: pwHash, name: u.name, role: u.role },
+      create: { email: u.email, name: u.name, password: pwHash, role: u.role },
+    })
+  }
   // seed a patient and an encounter
   const patient = await prisma.patient.upsert({
     where: { mrn: 'MRN-001' },

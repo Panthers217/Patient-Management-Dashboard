@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { mockApi } from '../lib/mockApi'
+import Card from './Card'
 
 export default function EncounterEditor({ mrn, initial = null, onSaved }) {
   const [date, setDate] = useState(initial?.date ?? new Date().toISOString().slice(0,10))
@@ -24,15 +25,17 @@ export default function EncounterEditor({ mrn, initial = null, onSaved }) {
   }
 
   return (
-    <div className="mt-2 p-3 border rounded">
+    <div className="mt-2">
+      <Card>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="border rounded px-2 py-1" />
-        <input value={provider} onChange={(e) => setProvider(e.target.value)} className="border rounded px-2 py-1" />
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
+        <input value={provider} onChange={(e) => setProvider(e.target.value)} className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
         <div className="text-right">
           <button onClick={handleSave} disabled={saving} className="px-3 py-1 bg-slate-800 text-white rounded">{saving ? 'Saving...' : 'Save'}</button>
         </div>
       </div>
-      <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Note" className="w-full mt-2 border rounded px-2 py-1" />
+      </Card>
+      <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Note" className="w-full mt-2 border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
     </div>
   )
 }

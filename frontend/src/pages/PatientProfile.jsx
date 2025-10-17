@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { mockApi } from '../lib/mockApi'
 import EncounterEditor from '../components/EncounterEditor'
 import EncounterModal from '../components/EncounterModal'
+import Card from '../components/Card'
 import { useNavigate } from 'react-router-dom'
 
 export default function PatientProfile() {
@@ -49,16 +50,16 @@ export default function PatientProfile() {
         <h2 className="font-semibold">Encounters</h2>
         <div className="mt-2 space-y-3">
           {patient.encounters.map((e) => (
-            <div key={e.id} className="p-3 border rounded flex items-start justify-between">
+            <Card as="div" key={e.id} className="flex items-start justify-between">
               <div>
                 <div className="text-sm text-slate-600">{e.date} — {e.provider}</div>
                 <div className="mt-1">{e.note}</div>
               </div>
               <div className="flex flex-col gap-2 ml-4">
-                <button onClick={() => { setSelected(e); setModalOpen(true) }} className="px-2 py-1 text-sm border rounded">View</button>
-                <button onClick={() => navigate(`/patients/${patient.mrn}/encounters/${e.id}`)} className="px-2 py-1 text-sm border rounded">Edit</button>
+                <button onClick={() => { setSelected(e); setModalOpen(true) }} className="px-2 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50">View</button>
+                <button onClick={() => navigate(`/patients/${patient.mrn}/encounters/${e.id}`)} className="px-2 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50">Edit</button>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </section>

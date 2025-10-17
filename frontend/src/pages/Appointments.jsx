@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import AppointmentModal from '../components/AppointmentModal'
+import Card from '../components/Card'
 
 const sample = [
   { id: 1, time: '09:00', patient: 'John Doe', status: 'booked' },
@@ -31,7 +32,7 @@ export default function Appointments() {
 
       <div className="mt-4 grid gap-3">
         {rows.map((a) => (
-          <div key={a.id} className="flex items-center justify-between p-4 bg-white rounded-lg shadow">
+          <Card as="div" key={a.id} variant="elevated" className="flex items-center justify-between border-slate-200 p-4">
             <div>
               <div className="font-medium">{a.time} — {a.patient}</div>
               <div className="text-sm text-slate-600">{a.status}</div>
@@ -41,7 +42,7 @@ export default function Appointments() {
               <button onClick={() => { setEditing(a); setModalOpen(true) }} className="px-3 py-1 border rounded">Edit</button>
               <button onClick={() => handleCancel(a.id)} className="px-3 py-1 border rounded text-red-600">Cancel</button>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 

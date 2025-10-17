@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  db:
+    image: nouchka/sqlite3
+    # sqlite runs in-process; this container provides a writable volume for the file
+    volumes:
+      - ./backend/prisma:/data
+
+# Notes:
+# - Compose mounts the source into the containers so you can edit locally.
+# - Backend listens on 4000, frontend on 5173. Use `docker compose up --build`.

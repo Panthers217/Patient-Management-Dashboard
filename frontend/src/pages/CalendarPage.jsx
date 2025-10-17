@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { mockApi } from '../lib/mockApi'
+import Card from '../components/Card'
 
 function formatDate(d) {
   return d.toISOString().slice(0,10)
@@ -48,7 +49,7 @@ export default function CalendarPage() {
 
       <div className="mt-4 grid grid-cols-7 gap-2">
         {days.map((d) => (
-          <div key={d.date} className="p-2 border rounded min-h-[120px]">
+          <Card as="div" key={d.date} className="min-h-[120px]">
             <div className="text-sm font-medium mb-2">{d.label}</div>
             {loading ? (
               <div className="space-y-2">
@@ -57,13 +58,13 @@ export default function CalendarPage() {
               </div>
             ) : (
               d.appts.map((a) => (
-                <button key={a.id} onClick={() => alert(`Open appointment ${a.id} for ${a.patient} at ${a.time}`)} className="mb-2 w-full text-left p-2 bg-white rounded border hover:bg-slate-50">
+                <button key={a.id} onClick={() => alert(`Open appointment ${a.id} for ${a.patient} at ${a.time}`)} className="mb-2 w-full text-left p-2 bg-white rounded border border-slate-200 hover:bg-slate-50">
                   <div className="text-sm font-medium">{a.time} — {a.patient}</div>
                   <div className="text-xs text-slate-600">{a.provider}</div>
                 </button>
               ))
             )}
-          </div>
+          </Card>
         ))}
       </div>
     </div>

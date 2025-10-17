@@ -1,0 +1,113 @@
+Project overview
+
+Patient-Management-Dashboard (PMD) is an opinionated demo scaffold for a small clinic management app. It includes a Vite + React frontend with Tailwind CSS and an Express + Prisma backend (SQLite for development). The project is meant as a demo/learning scaffold and includes seeded demo users, a simple JWT auth flow, and example pages for patients, appointments, and encounters.
+
+High-level architecture
+
+- Frontend (frontend/)
+  - Vite + React (JSX)
+  - Tailwind CSS for styling
+  - React Router for navigation
+  - Toast context for ephemeral notifications
+  - Auth context that handles login, token storage, and provides user state to the app
+  - A mockApi module that falls back to in-memory data when the backend is unavailable (useful for demos)
+
+- Backend (backend/)
+  - Express (TypeScript) with route modules for auth and patients
+  - Prisma ORM with SQLite dev DB and migrations
+  - Zod for request validation
+  - Seed script that creates demo users and a demo patient + encounter
+  - JWT-based authentication and role-based middleware
+
+Files & component overview
+
+Frontend components and pages (frontend/src)
+
+- main.jsx
+  - App entry point. Mounts providers (Auth, Toast) and starts the Router.
+
+- App.jsx
+  - Defines top-level routes and protected routes. Wraps pages with providers as needed.
+
+- auth/
+  - AuthContext.jsx - React context providing `user`, `login`, `logout`, and token management. It persists token in localStorage and attaches it to API calls.
+  - fakeAuth.js - a small in-memory fallback auth used when backend is unavailable.
+
+- components/
+  - Layout.jsx - Top navigation and app container. Contains navigation links and the user dropdown / Sign out button.
+  - Card.jsx - Small reusable card wrapper with variants (`default`, `elevated`, `minimal`) centralizing border/shadow styles.
+  - RoleBadge.jsx - Small badge component that maps user roles to colored badge styles for quick visual identification.
+  - Modal.jsx - Accessible modal implementation used by encounter/appointment editors.
+  - ToastContext.jsx - Provides toast notifications to the app.
+  - EncounterModal.jsx / AppointmentModal.jsx - Modal wrappers around the respective editors.
+
+- pages/
+  - LoginPage.jsx - Login form, includes a demo-users select dropdown that pre-fills demo credentials.
+  - Dashboard.jsx - App dashboard summary (placeholder for metrics).
+  - Patients.jsx - Patient list, search, and navigation to patient profiles.
+  - PatientProfile.jsx - Patient details page showing demographics and a list of encounters. Includes `EncounterEditor` and uses `EncounterModal` for viewing.
+  - Appointments.jsx - List of appointments; includes quick actions and an appointment editor modal.
+  - CalendarPage.jsx - Week calendar view with appointment cards.
+
+- components/EncounterEditor.jsx
+  - Form for creating/editing encounters. Calls mockApi or backend endpoints to persist data. Uses the `Card` component for consistent styling and includes accessible inputs and focus rings.
+
+- components/AppointmentEditor.jsx
+  - Form for creating/editing appointments. Uses `Card` and shares consistent input styles with the encounter editor.
+
+- lib/mockApi.js
+  - Provides in-memory data and methods for fetching/updating patients, appointments, and encounters. When backend is available, calls real HTTP endpoints and includes Authorization header.
+
+Backend files (backend/)
+
+- src/server.ts
+  - Express app entry. Registers middleware, routes, and error handlers. Starts the server.
+
+- src/routes/auth.ts
+  - Login route. Verifies credentials against Prisma users and signs JWT tokens.
+
+- src/routes/patients.ts
+  - Patient listing, get by MRN (with encounters), add/update encounters. Routes are protected by authentication middleware and RBAC checks where applicable.
+
+- src/middleware/auth.ts
+  - JWT verification middleware and role-checking helper (`requireRole`).
+
+- prisma/schema.prisma
+  - Prisma schema defining User, Patient, Encounter, Appointment and relations.
+
+- prisma/seed.js
+  - Seeds demo users (admin, doctor, nurse, front desk), a demo patient `MRN-001`, and an initial encounter. Passwords are hashed with bcrypt during seed.
+
+Developer notes & how to run
+
+1) Backend (local dev)
+   - cd backend
+   - npm install
+   - cp .env.example .env
+   - npm run prisma:generate
+   - npm run prisma:migrate -- --name init
+   - npm run seed
+   - npm run dev
+
+2) Frontend (local dev)
+   - cd frontend
+   - npm install
+   - npm run dev
+
+3) Docker compose (dev)
+   - docker compose up --build
+
+Demo credentials
+- admin@clinic.test / password (role: admin)
+- dr.jones@clinic.test / password (role: doctor)
+- nurse.amy@clinic.test / password (role: nurse)
+- front.desk@clinic.test / password (role: staff)
+
+Next improvements (recommended)
+- Replace mockApi fallbacks entirely once backend endpoints are complete for all resources.
+- Add tests (Jest + React Testing Library + supertest) and a GitHub Actions workflow.
+- Improve role-based UI routing (hide links for unauthorized roles) and audit logging for actions.
+- Add a production-ready Dockerfile setup (multi-stage builds) and a sample docker-compose.prod.yml.
+
+Contact & notes
+- This file was auto-generated by the dev assistant. If you want a different format (markdown, JSON, or a README section), tell me and I will convert it.
