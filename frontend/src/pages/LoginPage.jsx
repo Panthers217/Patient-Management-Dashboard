@@ -21,20 +21,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded">
-      <h2 className="text-xl font-semibold mb-4">Sign in</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-md mx-auto mt-20 p-8 bg-white/60 backdrop-blur-sm rounded-xl shadow">
+      <h2 className="text-2xl font-bold mb-6">Sign in to PMD</h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm">Email</label>
-          <input className="w-full border rounded px-2 py-1" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label className="block text-sm font-medium text-slate-700">Email</label>
+          <input className="w-full border rounded px-3 py-2 mt-1" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
-          <label className="block text-sm">Password</label>
-          <input type="password" className="w-full border rounded px-2 py-1" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <label className="block text-sm font-medium text-slate-700">Password</label>
+          <input type="password" className="w-full border rounded px-3 py-2 mt-1" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         {error && <div className="text-red-600">{error}</div>}
         <div className="flex items-center justify-between">
-          <button className="px-4 py-2 bg-slate-800 text-white rounded">Sign in</button>
+          <button type="submit" className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded shadow">Sign in</button>
+          <button type="button" onClick={() => { setEmail('admin@clinic.test'); setPassword('password') }} className="text-sm text-slate-600 hover:underline">Use demo creds</button>
         </div>
       </form>
     </div>

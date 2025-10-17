@@ -11,15 +11,44 @@ export const mockApi = {
     return patients
   },
   getPatient: async (mrn) => {
+    // try backend first
+    try {
+      const res = await fetch(`/api/patients/${mrn}`)
+      if (res.ok) return await res.json()
+    } catch (err) {
+      // ignore, fallback to in-memory
+    }
     await new Promise((r) => setTimeout(r, 100))
     return patients.find((p) => p.mrn === mrn)
   },
   addEncounter: async (mrn, encounter) => {
+    // try backend
+    try {
+      const res = await fetch(`/api/patients/${mrn}/encounters`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ date: encounter.date, provider: encounter.provider, note: encounter.note }) })
+      if (res.ok) return await res.json()
+    } catch (err) {
+      // fallback
+    }
     await new Promise((r) => setTimeout(r, 100))
     const p = patients.find((x) => x.mrn === mrn)
     if (!p) throw new Error('Not found')
     p.encounters.push(encounter)
     return encounter
+  },
+  updateEncounter: async (mrn, encounterId, data) => {
+    try {
+      const res = await fetch(`/api/patients/${mrn}/encounters/${encounterId}`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
+      if (res.ok) return await res.json()
+    } catch (err) {
+      // fallback to in-memory
+    }
+    await new Promise((r) => setTimeout(r, 120))
+    const p = patients.find((x) => x.mrn === mrn)
+    if (!p) throw new Error('Not found')
+    const idx = p.encounters.findIndex((e) => e.id === encounterId)
+    if (idx === -1) throw new Error('encounter not found')
+    p.encounters[idx] = { ...p.encounters[idx], ...data }
+    return p.encounters[idx]
   },
   // simple appointments sample for calendar demo
   _appointments: [

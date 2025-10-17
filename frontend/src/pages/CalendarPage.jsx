@@ -57,10 +57,10 @@ export default function CalendarPage() {
               </div>
             ) : (
               d.appts.map((a) => (
-                <div key={a.id} className="mb-2 p-2 bg-slate-50 rounded border">
+                <button key={a.id} onClick={() => alert(`Open appointment ${a.id} for ${a.patient} at ${a.time}`)} className="mb-2 w-full text-left p-2 bg-white rounded border hover:bg-slate-50">
                   <div className="text-sm font-medium">{a.time} — {a.patient}</div>
                   <div className="text-xs text-slate-600">{a.provider}</div>
-                </div>
+                </button>
               ))
             )}
           </div>

@@ -23,6 +23,17 @@ model Patient {
   lastName  String
   dob  DateTime?
   createdAt DateTime @default(now())
+  encounters Encounter[]
+}
+
+model Encounter {
+  id        Int      @id @default(autoincrement())
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  patientId Int
+  date      DateTime
+  provider  String
+  note      String?
+  createdAt DateTime @default(now())
 }
 
 model Appointment {

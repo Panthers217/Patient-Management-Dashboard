@@ -7,6 +7,7 @@ import Patients from './pages/Patients'
 import Appointments from './pages/Appointments'
 import PatientProfile from './pages/PatientProfile'
 import CalendarPage from './pages/CalendarPage'
+import EncounterRouteEditor from './pages/EncounterRouteEditor'
 import Layout from './components/Layout'
 
 function Protected({ children, allowedRoles }) {
@@ -32,6 +33,7 @@ export default function App() {
           <Route index element={<Dashboard />} />
           <Route path="patients" element={<Patients />} />
           <Route path="patients/:mrn" element={<PatientProfile />} />
+          <Route path="patients/:mrn/encounters/:id" element={<EncounterRouteEditor />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="calendar" element={<CalendarPage />} />
         </Route>
