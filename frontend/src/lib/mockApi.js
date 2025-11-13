@@ -15,8 +15,8 @@ export const mockApi = {
     try {
       const stored = localStorage.getItem('pmd_user')
       const token = stored ? JSON.parse(stored).token : null
-        const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : ''
-        const res = await fetch(`${API_BASE}/api/patients/${mrn}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined)
+      const API_BASE = (typeof window !== 'undefined' && (import.meta && import.meta.env && import.meta.env.VITE_API_BASE)) ? import.meta.env.VITE_API_BASE : ((typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : '')
+      const res = await fetch(`${API_BASE}/api/patients/${mrn}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined)
       if (res.ok) return await res.json()
     } catch (err) {
       // ignore, fallback to in-memory
@@ -31,8 +31,8 @@ export const mockApi = {
       const token = stored ? JSON.parse(stored).token : null
       const headers = { 'content-type': 'application/json' }
       if (token) headers.Authorization = `Bearer ${token}`
-        const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : ''
-        const res = await fetch(`${API_BASE}/api/patients/${mrn}/encounters`, { method: 'POST', headers, body: JSON.stringify({ date: encounter.date, provider: encounter.provider, note: encounter.note }) })
+      const API_BASE = (typeof window !== 'undefined' && (import.meta && import.meta.env && import.meta.env.VITE_API_BASE)) ? import.meta.env.VITE_API_BASE : ((typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : '')
+      const res = await fetch(`${API_BASE}/api/patients/${mrn}/encounters`, { method: 'POST', headers, body: JSON.stringify({ date: encounter.date, provider: encounter.provider, note: encounter.note }) })
       if (res.ok) return await res.json()
     } catch (err) {
       // fallback
@@ -49,8 +49,8 @@ export const mockApi = {
       const token = stored ? JSON.parse(stored).token : null
       const headers = { 'content-type': 'application/json' }
       if (token) headers.Authorization = `Bearer ${token}`
-        const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : ''
-        const res = await fetch(`${API_BASE}/api/patients/${mrn}/encounters/${encounterId}`, { method: 'PUT', headers, body: JSON.stringify(data) })
+      const API_BASE = (typeof window !== 'undefined' && (import.meta && import.meta.env && import.meta.env.VITE_API_BASE)) ? import.meta.env.VITE_API_BASE : ((typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? 'http://127.0.0.1:4000' : '')
+      const res = await fetch(`${API_BASE}/api/patients/${mrn}/encounters/${encounterId}`, { method: 'PUT', headers, body: JSON.stringify(data) })
       if (res.ok) return await res.json()
     } catch (err) {
       // fallback to in-memory

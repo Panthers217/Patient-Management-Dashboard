@@ -2,7 +2,17 @@ import express from 'express'
 import cors from 'cors'
 
 const app = express()
-app.use(cors())
+
+// Configure CORS with environment variable support
+const allowedOrigins = process.env.CORS_ORIGINS 
+  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  : ['http://localhost:5173', 'http://127.0.0.1:5173']
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}))
+
 app.use(express.json())
 
 // Lazy-require route modules to avoid ESM/CJS cycles when using ts-node
