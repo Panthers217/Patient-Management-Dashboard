@@ -14,10 +14,10 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = async (email, password) => {
-    // in dev use local backend; in production rely on same-origin (API_BASE='')
-    // Vite exposes import.meta.env.DEV so use that when available
-    // eslint-disable-next-line no-undef
-    const API_BASE = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV ? 'http://127.0.0.1:4000' : ''
+    // Use VITE_API_BASE if set (production), otherwise use localhost in dev
+    const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE) 
+      ? import.meta.env.VITE_API_BASE 
+      : ((typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV) ? 'http://127.0.0.1:4000' : '')
     try {
       const res = await fetch(`${API_BASE}/api/auth/login`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, password }) })
       if (res.ok) {
