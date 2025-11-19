@@ -9,6 +9,7 @@ import PatientProfile from './pages/PatientProfile'
 import CalendarPage from './pages/CalendarPage'
 import EncounterRouteEditor from './pages/EncounterRouteEditor'
 import Layout from './components/Layout'
+import ProjectWalkthroughVideo from './components/ProjectWalkthroughVideo'
 
 function Protected({ children, allowedRoles }) {
   const { user } = useAuth()
@@ -20,6 +21,7 @@ function Protected({ children, allowedRoles }) {
 export default function App() {
   return (
     <AuthProvider>
+      <ProjectWalkthroughVideo />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route
