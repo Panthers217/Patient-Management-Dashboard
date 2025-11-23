@@ -39,17 +39,17 @@ export default function CalendarPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex xs:block items-center justify-between">
         <h1 className="text-2xl font-semibold">Calendar — Week view</h1>
-        <div className="flex gap-2">
+        <div className="flex  gap-2">
           <button onClick={() => { const n = new Date(start); n.setDate(n.getDate() - 7); setStart(startOfWeek(n)) }} className="px-2 py-1 border rounded">Prev</button>
           <button onClick={() => { const n = new Date(start); n.setDate(n.getDate() + 7); setStart(startOfWeek(n)) }} className="px-2 py-1 border rounded">Next</button>
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-7 gap-2">
+      <div className=" mt-4 grid xs:block md:grid grid-cols-7 gap-2">
         {days.map((d) => (
-          <Card as="div" key={d.date} className="min-h-[120px]">
+          <Card as="div" key={d.date} className="min-h-[120px] ">
             <div className="text-sm font-medium mb-2">{d.label}</div>
             {loading ? (
               <div className="space-y-2">

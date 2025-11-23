@@ -43,7 +43,7 @@ export default function LoginPage() {
           <input type="password" className="w-full border rounded px-3 py-2 mt-1" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         {error && <div className="text-red-600">{error}</div>}
-        <div className="flex items-center justify-between">
+        <div className="flex xs:block items-center justify-between">
           <button type="submit" disabled={loading} className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded shadow disabled:opacity-60">
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

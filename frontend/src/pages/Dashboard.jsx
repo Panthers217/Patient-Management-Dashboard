@@ -5,7 +5,7 @@ export default function Dashboard() {
   const navigate = useNavigate()
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex xs:block sm:flex md:flex lg:flex xl:flex 2xl:flex items-center justify-between">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="text-sm text-slate-600">Welcome back — quick overview</div>
       </div>

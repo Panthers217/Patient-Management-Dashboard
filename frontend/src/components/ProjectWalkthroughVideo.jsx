@@ -63,6 +63,19 @@ const ProjectWalkthroughVideo = () => {
     };
   }, [isDragging, dragOffset]);
 
+  // Ensure reasonable default position on small screens (bottom-right)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        const defaultW = 280
+        const defaultH = 160
+        setPosition({ x: Math.max(12, window.innerWidth - defaultW - 12), y: Math.max(12, window.innerHeight - defaultH - 80) })
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, []);
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
@@ -81,7 +94,7 @@ const ProjectWalkthroughVideo = () => {
       ref={containerRef}
       className={`fixed z-[999] transition-all duration-300 ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
-      } ${isMinimized ? 'w-80' : 'w-[90vw] max-w-[600px]'}`}
+      } ${isMinimized ? 'w-64 sm:w-80' : 'w-[90vw] max-w-[600px]'}`}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,

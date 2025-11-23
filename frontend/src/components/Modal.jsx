@@ -88,7 +88,7 @@ export default function Modal({ title, onClose, children, onBackdropClick }) {
         aria-modal="true"
         aria-label={title || 'Dialog'}
         tabIndex={-1}
-        className="bg-white rounded-lg shadow-lg z-10 w-full max-w-2xl p-4 mx-4"
+        className="bg-white rounded-lg shadow-lg z-10 w-full max-w-full sm:max-w-2xl p-4 sm:p-6 mx-4"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold">{title}</h3>

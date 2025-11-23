@@ -27,19 +27,35 @@ export default function AppointmentEditor({ initial = null, onSaved, onCancel })
   return (
     <div className="mt-2">
       <Card>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
-          <input value={patient} onChange={(e) => setPatient(e.target.value)} placeholder="Patient name" className="border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-200" />
-          <select value={status} onChange={(e) => setStatus(e.target.value)} className="border border-slate-300 rounded px-2 py-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-200 text-sm sm:text-base"
+          />
+          <input
+            value={patient}
+            onChange={(e) => setPatient(e.target.value)}
+            placeholder="Patient name"
+            className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-200 text-sm sm:text-base"
+          />
+          <select value={status} onChange={(e) => setStatus(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm sm:text-base">
             <option value="booked">Booked</option>
             <option value="checked-in">Checked-in</option>
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
 
-        <div className="mt-3 flex items-center justify-end gap-2">
-          <button onClick={onCancel} className="px-3 py-1 border border-slate-300 rounded hover:bg-slate-50">Cancel</button>
-          <button onClick={handleSave} disabled={saving} className="px-3 py-1 bg-sky-600 text-white rounded">{saving ? 'Saving...' : 'Save'}</button>
+        <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2">
+          <button onClick={onCancel} className="w-full sm:w-auto px-3 py-2 border border-slate-300 rounded hover:bg-slate-50">Cancel</button>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="w-full sm:w-auto px-3 py-2 bg-sky-600 text-white rounded disabled:opacity-60"
+          >
+            {saving ? 'Saving...' : 'Save'}
+          </button>
         </div>
       </Card>
     </div>

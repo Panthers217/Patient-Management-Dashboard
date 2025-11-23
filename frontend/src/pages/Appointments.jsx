@@ -23,7 +23,7 @@ export default function Appointments() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex xs:grid items-center justify-between">
         <h1 className="text-2xl font-bold">Appointments</h1>
         <div>
           <button onClick={() => { setEditing(null); setModalOpen(true) }} className="px-3 py-1 bg-sky-600 text-white rounded shadow">New Appointment</button>
@@ -32,7 +32,7 @@ export default function Appointments() {
 
       <div className="mt-4 grid gap-3">
         {rows.map((a) => (
-          <Card as="div" key={a.id} variant="elevated" className="flex items-center justify-between border-slate-200 p-4">
+          <Card as="div" key={a.id} variant="elevated" className="flex xs:grid items-center justify-between border-slate-200 p-4">
             <div>
               <div className="font-medium">{a.time} — {a.patient}</div>
               <div className="text-sm text-slate-600">{a.status}</div>
