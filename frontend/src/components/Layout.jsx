@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Outlet, NavLink as RouterNavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import RoleBadge from './RoleBadge'
+import FolderStructureButton from './FolderStructureButton'
 
 const NavItem = ({ to, children, end }) => (
   <RouterNavLink
@@ -93,6 +94,7 @@ export default function Layout() {
       <main className="container py-6">
         <Outlet />
       </main>
+      <FolderStructureButton />
     </div>
   )
 }
