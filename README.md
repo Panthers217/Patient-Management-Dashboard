@@ -64,6 +64,23 @@ Notes:
 - `frontend/` — Vite + React frontend
 - `backend/` — Express + Prisma backend (TypeScript)
 - `backend/prisma/dev.db` — local SQLite DB created by migrations (dev)
+- `scripts/` — Utility scripts for deployment and management
+
+## Deployment & Management
+
+### List Render Services
+
+This repository includes a utility script to list your Render services via the Render API:
+
+```bash
+RENDER_API_KEY=your_api_key npm run list-render-services
+```
+
+For detailed instructions, see [docs/list-render-services.md](./docs/list-render-services.md).
+
+### Deploying to Render
+
+For step-by-step deployment instructions to Render.com, see [docs/render.md](./docs/render.md).
 
 ---
 

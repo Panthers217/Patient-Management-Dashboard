@@ -1,0 +1,9 @@
+{
+  "name": "patient-management-dashboard-root",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Patient Management Dashboard - Root scripts and utilities",
+  "scripts": {
+    "list-render-services": "node scripts/list-render-services.js"
+  }
+}
