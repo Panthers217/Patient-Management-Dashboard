@@ -3,6 +3,7 @@ import { Outlet, NavLink as RouterNavLink, Link, useNavigate } from 'react-route
 import { useAuth } from '../auth/AuthContext'
 import RoleBadge from './RoleBadge'
 import FolderStructureButton from './FolderStructureButton'
+import WelcomeToast from './WelcomeToast'
 
 const NavItem = ({ to, children, end }) => (
   <RouterNavLink
@@ -94,6 +95,7 @@ export default function Layout() {
       <main className="container py-6">
         <Outlet />
       </main>
+      <WelcomeToast />
       <FolderStructureButton />
     </div>
   )
